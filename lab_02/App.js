@@ -8,10 +8,32 @@ export default function App() {
   const [lname, setLname] = useState("Dzhumal");
   const [dob, setDob] = useState("30 September 2005");
 
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+
+  function isValidEmail(value) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(value);
+  }
+
   function buttonClicked() {
-    alert(`First Name: ${fname}
-Last Name: ${lname}
-Date of Birth: ${dob}`);
+    if (!isValidEmail(email)) {
+      setEmailError("Please enter a valid email address");
+      return;
+    }
+
+    setEmailError("");
+
+    alert(
+      "Hello " +
+        fname +
+        " " +
+        lname +
+        ". Your Date of birth is " +
+        dob +
+        ". Email: " +
+        email
+    );
   }
 
   return (
@@ -44,6 +66,16 @@ Date of Birth: ${dob}`);
         onChangeText={setDob}
       />
 
+      <TextInput
+        placeholder="Enter your email"
+        onChangeText={setEmail}
+        style={styles.input}
+      />
+
+      {emailError ? (
+        <Text style={{ color: "red" }}>{emailError}</Text>
+      ) : null}
+
       <Button title="SUBMIT" onPress={buttonClicked} />
 
       <Text style={styles.text}>
@@ -74,3 +106,4 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
 });
+
